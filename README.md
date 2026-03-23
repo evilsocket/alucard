@@ -141,12 +141,8 @@ python scripts/convert_to_safetensors.py \
 
 ## License
 
-The model code is provided as-is. The training dataset is assembled from publicly available sources with the following licenses:
+Released under the [FAIR License (Free for Attribution and Individual Rights) v1.0.0](LICENSE).
 
-| Source | License |
-|--------|---------|
-| Kaggle Pixel Art | Apache 2.0 |
-| Kenney Assets | CC0 |
-| GameTileNet | CC0 / CC-BY |
-| Pixel Art Nouns | HuggingFace |
-| TinyHero | CC-BY-SA 3.0 |
+- **Non-commercial use** (personal, educational, research, non-profit) is freely permitted under the terms of the license.
+- **Commercial use** (SaaS, paid apps, any monetization) requires visible attribution to the project and its author. See the [license](LICENSE) for details.
+- **Business use** (any use by or on behalf of a business entity) requires a signed commercial agreement with the author. Contact `evilsocket@gmail.com` for inquiries.
