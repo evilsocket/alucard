@@ -22,6 +22,7 @@ dependencies = [
 alucard-train = "alucard.train:main"
 alucard-sample = "alucard.sample:main"
 alucard-precompute = "alucard.precompute_embeddings:main"
+alucard-convert = "alucard.convert:main"
 
 [build-system]
 requires = ["setuptools>=68.0"]

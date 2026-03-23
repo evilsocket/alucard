@@ -167,9 +167,10 @@ alucard-sample \
 Convert a training checkpoint to safetensors for distribution:
 
 ```bash
-python scripts/convert_to_safetensors.py \
-    --checkpoint checkpoints/checkpoint_0200.pt \
-    --output alucard_model.safetensors
+alucard-convert \
+    --checkpoint checkpoints/best.pt \
+    --output alucard_model.safetensors \
+    --half
 ```
 
 ## License
