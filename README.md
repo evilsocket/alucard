@@ -29,7 +29,40 @@ Previous Frame (128x128x4) or zeros
 ## Installation
 
 ```bash
-pip install -e .
+pip install git+https://github.com/evilsocket/alucard.git
+```
+
+## Quick Start
+
+```python
+from alucard import Alucard
+
+# Load model (downloads weights automatically from HuggingFace)
+model = Alucard.from_pretrained("evilsocket/alucard")
+
+# Generate a sprite from text
+sprite = model("a pixel art knight sprite, idle pose")
+sprite.save("knight.png")
+
+# Generate multiple variations
+sprites = model("a pixel art dragon enemy sprite", num_samples=4, seed=42)
+for i, s in enumerate(sprites):
+    s.save(f"dragon_{i}.png")
+```
+
+### Animation: generate frame by frame
+
+```python
+# Generate the first frame
+frame_1 = model("a pixel art knight sprite, walking right, frame 1")
+frame_1.save("walk_01.png")
+
+# Generate subsequent frames using the previous frame as reference
+frame_2 = model("a pixel art knight sprite, walking right, frame 2", ref=frame_1)
+frame_2.save("walk_02.png")
+
+frame_3 = model("a pixel art knight sprite, walking right, frame 3", ref=frame_2)
+frame_3.save("walk_03.png")
 ```
 
 ## Dataset Preparation
