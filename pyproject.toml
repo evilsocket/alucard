@@ -1,0 +1,31 @@
+[project]
+name = "alucard"
+version = "0.1.0"
+description = "Text-to-sprite generative model using flow matching"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.1.0",
+    "torchvision>=0.16.0",
+    "transformers>=4.36.0",
+    "ftfy",
+    "regex",
+    "Pillow>=10.0.0",
+    "numpy>=1.24.0",
+    "tqdm",
+    "wandb",
+    "accelerate>=0.25.0",
+    "safetensors",
+    "open-clip-torch>=2.24.0",
+]
+
+[project.scripts]
+alucard-train = "alucard.train:main"
+alucard-sample = "alucard.sample:main"
+alucard-precompute = "alucard.precompute_embeddings:main"
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["alucard*"]

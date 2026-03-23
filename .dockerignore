@@ -1,0 +1,7 @@
+data/raw/
+checkpoints/
+*.egg-info/
+__pycache__/
+.git/
+*.pyc
+.claude/

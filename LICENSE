@@ -1,0 +1,192 @@
+FAIR License (Free Access for Individuals and Researchers)
+==========================================================
+
+Version 1.0.0
+
+Copyright (c) 2026-present Simone Margaritelli (evilsocket@gmail.com)
+All Rights Reserved.
+
+Software:    Alucard
+Repository:  https://github.com/evilsocket/alucard
+Author:      Simone Margaritelli
+Contact:     evilsocket@gmail.com
+
+
+1. DEFINITIONS
+
+"Software" means the software identified above, including all source code,
+documentation, configuration files, and associated materials available in
+the repository identified above.
+
+"Derivative Work" means any work that incorporates, modifies, extends, or
+is based upon the Software in whole or in part.
+
+"Commercial Use" means any use of the Software or a Derivative Work in
+connection with any activity intended to generate revenue, monetary gain,
+or other commercial advantage. This includes, but is not limited to:
+
+  (a) offering the Software or a Derivative Work as a paid product or
+      service;
+  (b) using the Software or a Derivative Work as part of a
+      Software-as-a-Service (SaaS) offering;
+  (c) incorporating the Software or a Derivative Work into a product or
+      service that is monetized through any means, including but not
+      limited to subscriptions, advertisements, in-app purchases,
+      licensing fees, or consulting fees;
+  (d) using the Software or a Derivative Work internally within a
+      for-profit organization to support revenue-generating operations.
+
+"Business Use" means any use of the Software or a Derivative Work by or on
+behalf of a legal entity (including but not limited to a corporation, LLC,
+partnership, sole proprietorship, or equivalent) in the course of that
+entity's business operations, regardless of whether the specific use
+directly generates revenue.
+
+"Non-Commercial Use" means use of the Software solely for personal,
+educational, academic research, or non-profit purposes, where no Commercial
+Use or Business Use is involved.
+
+"Attribution" means the notice specified in Section 4 of this License.
+
+"Author" means the copyright holder identified above.
+
+
+2. NON-COMMERCIAL USE GRANT
+
+Subject to the terms and conditions of this License, the Author hereby
+grants you a worldwide, royalty-free, non-exclusive license to use, copy,
+modify, and distribute the Software and Derivative Works for Non-Commercial
+Use, provided that you:
+
+  (a) retain all copyright notices, this License text, and any other
+      notices of attribution in all copies or substantial portions of the
+      Software;
+  (b) clearly mark any modifications as changed from the original Software;
+  (c) distribute any Derivative Work under the terms of this same License.
+
+
+3. COMMERCIAL USE — ATTRIBUTION REQUIRED
+
+Any Commercial Use of the Software or a Derivative Work is permitted only
+if the Attribution requirements set forth in Section 4 are fully satisfied.
+
+If such use also constitutes Business Use as defined in Section 1, the
+requirements of Section 5 apply in addition to (and not instead of) the
+requirements of this Section and Section 4.
+
+
+4. ATTRIBUTION REQUIREMENTS
+
+Any person or entity engaged in Commercial Use of the Software or a
+Derivative Work must provide Attribution that includes ALL of the
+following:
+
+  (a) the text "Powered by Alucard" or "Built with
+      Alucard";
+  (b) a clickable hyperlink to https://github.com/evilsocket/alucard
+      (where technically feasible; if not feasible, the
+      full URL must be displayed as plain text);
+  (c) the text "Created by Simone Margaritelli".
+
+The Attribution must be clearly visible to end users and must appear in at
+least one of the following locations:
+
+  (a) the primary user interface of the product or service (for example,
+      a page footer, an "about" page, or a sidebar);
+  (b) the landing page or main documentation page of the product or
+      service;
+  (c) if the product or service has no user interface, in the README file
+      or primary documentation distributed with it.
+
+The Attribution must NOT be hidden behind multiple clicks, placed in fine
+print, rendered in a color or size that makes it difficult to read, or
+otherwise obscured from reasonable view.
+
+The Attribution must remain in place for the entire duration of the
+Commercial Use.
+
+
+5. BUSINESS USE — COMMERCIAL AGREEMENT REQUIRED
+
+Any Business Use of the Software or a Derivative Work requires a separate
+written commercial agreement signed by the Author. To obtain a commercial
+agreement, contact the Author at the email address identified at the top
+of this License.
+
+Use of the Software or a Derivative Work for Business Use without such a
+signed agreement constitutes a violation of this License and an
+infringement of the Author's copyright.
+
+This requirement applies regardless of whether the Business Use also
+satisfies the Attribution requirements of Sections 3 and 4.
+
+
+6. CONTRIBUTIONS
+
+Any contributions submitted to the Software (including but not limited to
+pull requests, patches, and issue reports containing code) are licensed
+under the terms of this License.
+
+By submitting a contribution, the contributor grants the Author a
+perpetual, irrevocable, worldwide, royalty-free, non-exclusive license to
+use, reproduce, modify, distribute, sublicense, and otherwise exploit the
+contribution under any terms the Author sees fit, including under licenses
+other than this one.
+
+
+7. TERMINATION
+
+Your rights under this License terminate automatically and without notice
+upon any violation of its terms. Upon termination, you must immediately
+cease all use, copying, modification, and distribution of the Software and
+any Derivative Works.
+
+If you cure a violation within thirty (30) days of receiving written notice
+from the Author, and if such violation is your first violation of this
+License, your rights under this License shall be reinstated.
+
+The Author reserves the right to pursue any and all available legal
+remedies for any violation of this License, including but not limited to
+injunctive relief and damages.
+
+
+8. DISCLAIMER OF WARRANTY
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE AUTHOR OR COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING
+FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+
+9. LIMITATION OF LIABILITY
+
+IN NO EVENT SHALL THE AUTHOR BE LIABLE TO YOU OR ANY THIRD PARTY FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING BUT NOT LIMITED TO PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES,
+LOSS OF USE, DATA, OR PROFITS, OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
+TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THE SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+10. GENERAL PROVISIONS
+
+(a) Severability. If any provision of this License is held to be
+    unenforceable or invalid by a court of competent jurisdiction, that
+    provision shall be modified to the minimum extent necessary to make it
+    enforceable, and the remaining provisions shall continue in full force
+    and effect.
+
+(b) Disputes. Any disputes arising under or in connection with this
+    License shall be resolved by the courts of competent jurisdiction.
+
+(c) Entire Agreement. This License constitutes the entire agreement
+    between the parties with respect to Non-Commercial Use of the
+    Software. Commercial Use and Business Use are additionally governed
+    by the separate agreement referenced in Section 5.
+
+(d) Reservation of Rights. All rights not expressly granted under this
+    License are reserved by the Author.
