@@ -152,6 +152,7 @@ def train(
     # Resume
     start_epoch = 0
     global_step = 0
+    best_loss = float("inf")
     if resume:
         ckpt = torch.load(resume, map_location=device, weights_only=False)
         model.load_state_dict(ckpt["model"])
@@ -160,7 +161,8 @@ def train(
         scheduler.load_state_dict(ckpt["scheduler"])
         start_epoch = ckpt["epoch"] + 1
         global_step = ckpt["global_step"]
-        logger.info(f"Resumed from epoch {start_epoch}, step {global_step}")
+        best_loss = ckpt.get("best_loss", float("inf"))
+        logger.info(f"Resumed from epoch {start_epoch}, step {global_step}, best_loss {best_loss:.6f}")
 
     # Wandb
     if wandb_project:
@@ -182,7 +184,6 @@ def train(
     (output_path / "config.json").write_text(json.dumps(config, indent=2))
 
     # Training loop
-    best_loss = float("inf")
     for epoch in range(start_epoch, epochs):
         model.train()
         epoch_loss = 0.0
@@ -237,18 +238,19 @@ def train(
             }, ckpt_path)
             logger.info(f"New best loss {best_loss:.6f}, saved: {ckpt_path}")
 
-        # Also save periodic checkpoint for resume
-        if epoch == epochs - 1:
-            ckpt_path = output_path / f"checkpoint_{epoch+1:04d}.pt"
+        # Save periodic checkpoint for resume
+        if (epoch + 1) % save_every == 0 or epoch == epochs - 1:
+            ckpt_path = output_path / "latest.pt"
             torch.save({
                 "epoch": epoch,
                 "global_step": global_step,
+                "best_loss": best_loss,
                 "model": model.state_dict(),
                 "ema_model": ema_model.state_dict(),
                 "optimizer": optimizer.state_dict(),
                 "scheduler": scheduler.state_dict(),
             }, ckpt_path)
-            logger.info(f"Saved final checkpoint: {ckpt_path}")
+            logger.info(f"Saved checkpoint: {ckpt_path} (epoch {epoch+1})")
 
         # Generate samples
         if (epoch + 1) % sample_every == 0:
