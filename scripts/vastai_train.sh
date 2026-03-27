@@ -3,7 +3,8 @@ set -e
 
 echo "=== Alucard Training on Vast.ai ==="
 
-# Install alucard
+# Install alucard and dependencies
+pip install -q pyarrow huggingface_hub
 pip install -q git+https://github.com/evilsocket/alucard.git
 
 # Setup directories
