@@ -16,6 +16,7 @@ dependencies = [
     "accelerate>=0.25.0",
     "safetensors",
     "open-clip-torch>=2.24.0",
+    "gradio>=4.0.0",
 ]
 
 [project.scripts]
@@ -23,6 +24,7 @@ alucard-train = "alucard.train:main"
 alucard-sample = "alucard.sample:main"
 alucard-precompute = "alucard.precompute_embeddings:main"
 alucard-convert = "alucard.convert:main"
+alucard-app = "alucard.app:main"
 
 [build-system]
 requires = ["setuptools>=68.0"]
