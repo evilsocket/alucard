@@ -46,7 +46,7 @@ def update_ema(ema_model: nn.Module, model: nn.Module, decay: float = 0.9999):
 
 
 def flow_matching_loss(
-    model: UNet,
+    model: nn.Module,
     x_0: torch.Tensor,
     text_emb: torch.Tensor,
     ref: torch.Tensor,
@@ -54,6 +54,7 @@ def flow_matching_loss(
     text_drop_prob: float = 0.10,
     ref_drop_prob: float = 0.20,
     both_drop_prob: float = 0.05,
+    null_text_emb: torch.Tensor | None = None,
 ) -> torch.Tensor:
     """Compute flow matching loss with dual CFG dropout."""
     B = x_0.shape[0]
@@ -83,8 +84,9 @@ def flow_matching_loss(
     # Apply text dropout
     text_emb_masked = text_emb.clone()
     null_mask = drop_both | drop_text
+    _null_emb = null_text_emb if null_text_emb is not None else model.null_text_emb
     if null_mask.any():
-        text_emb_masked[null_mask] = model.null_text_emb.to(text_emb.dtype)
+        text_emb_masked[null_mask] = _null_emb.to(text_emb.dtype)
 
     # Apply reference dropout (also drop for samples that have no ref)
     ref_masked = ref.clone()
@@ -139,6 +141,15 @@ def train(
     total_params = sum(p.numel() for p in model.parameters())
     logger.info(f"Model parameters: {total_params:,} ({total_params/1e6:.1f}M)")
 
+    # Multi-GPU support
+    num_gpus = torch.cuda.device_count()
+    if num_gpus > 1:
+        logger.info(f"Using {num_gpus} GPUs with DataParallel")
+        model = nn.DataParallel(model)
+
+    # Helper to get underlying model (unwrap DataParallel)
+    raw_model = model.module if isinstance(model, nn.DataParallel) else model
+
     # Optimizer
     optimizer = torch.optim.AdamW(model.parameters(), lr=lr, betas=(0.9, 0.999), weight_decay=0.01)
 
@@ -155,7 +166,7 @@ def train(
     best_loss = float("inf")
     if resume:
         ckpt = torch.load(resume, map_location=device, weights_only=False)
-        model.load_state_dict(ckpt["model"])
+        raw_model.load_state_dict(ckpt["model"])
         ema_model.load_state_dict(ckpt["ema_model"])
         optimizer.load_state_dict(ckpt["optimizer"])
         scheduler.load_state_dict(ckpt["scheduler"])
@@ -196,7 +207,8 @@ def train(
             has_ref = batch["has_ref"].to(device)
 
             with torch.amp.autocast("cuda", enabled=device.type == "cuda"):
-                loss = flow_matching_loss(model, x_0, text_emb, ref, has_ref)
+                loss = flow_matching_loss(model, x_0, text_emb, ref, has_ref,
+                                          null_text_emb=raw_model.null_text_emb)
                 loss = loss / grad_accum
 
             scaler.scale(loss).backward()
@@ -208,7 +220,7 @@ def train(
                 scaler.update()
                 optimizer.zero_grad()
                 scheduler.step()
-                update_ema(ema_model, model, ema_decay)
+                update_ema(ema_model, raw_model, ema_decay)
                 global_step += 1
 
             epoch_loss += loss.item() * grad_accum
@@ -231,7 +243,7 @@ def train(
                 "epoch": epoch,
                 "global_step": global_step,
                 "best_loss": best_loss,
-                "model": model.state_dict(),
+                "model": raw_model.state_dict(),
                 "ema_model": ema_model.state_dict(),
                 "optimizer": optimizer.state_dict(),
                 "scheduler": scheduler.state_dict(),
@@ -245,7 +257,7 @@ def train(
                 "epoch": epoch,
                 "global_step": global_step,
                 "best_loss": best_loss,
-                "model": model.state_dict(),
+                "model": raw_model.state_dict(),
                 "ema_model": ema_model.state_dict(),
                 "optimizer": optimizer.state_dict(),
                 "scheduler": scheduler.state_dict(),
