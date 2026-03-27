@@ -1,12 +1,19 @@
 """
 Dataset for sprite generation training.
 
-Expects a directory structure:
+Supports two formats:
+
+Format 1 (individual files):
     data_dir/
         sprite_0001.png          # 128x128 RGBA sprite
-        sprite_0001.txt          # text caption
         sprite_0001.clip.pt      # pre-computed CLIP embedding (512,)
         sprite_0001.prev.png     # optional: previous animation frame
+
+Format 2 (consolidated embeddings):
+    data_dir/
+        sprite_0001.png          # 128x128 RGBA sprite
+        sprite_0001.txt          # text caption (used if no .clip.pt)
+        clip_embeddings.pt       # single file with all embeddings (N, 512)
 
 Each sample yields:
     - image: (4, 128, 128) float tensor in [-1, 1] (RGBA)
@@ -56,32 +63,50 @@ class SpriteDataset(Dataset):
         self.augment = augment
         self.palette_swap_prob = palette_swap_prob
 
-        # Find all sprites that have both image and CLIP embedding
-        self.samples = []
-        for img_path in sorted(self.data_dir.glob("*.png")):
-            if img_path.stem.endswith(".prev"):
-                continue  # skip reference frame files
-            clip_path = img_path.with_suffix(".clip.pt")
-            if clip_path.exists():
-                self.samples.append(img_path)
+        # Check for consolidated embeddings file
+        consolidated_path = self.data_dir / "clip_embeddings.pt"
+        self.clip_embeddings = None
+
+        if consolidated_path.exists():
+            self.clip_embeddings = torch.load(consolidated_path, map_location="cpu", weights_only=True)
+            # Find all sprites by index (matching the consolidated embeddings order)
+            self.samples = []
+            for i in range(len(self.clip_embeddings)):
+                img_path = self.data_dir / f"sprite_{i:06d}.png"
+                if img_path.exists():
+                    self.samples.append(img_path)
+                else:
+                    break
+        else:
+            # Fallback: find sprites with individual .clip.pt files
+            self.samples = []
+            for img_path in sorted(self.data_dir.glob("*.png")):
+                if img_path.stem.endswith(".prev"):
+                    continue
+                clip_path = img_path.with_suffix(".clip.pt")
+                if clip_path.exists():
+                    self.samples.append(img_path)
 
         if not self.samples:
             raise ValueError(f"No valid samples found in {data_dir}. "
-                             f"Expected .png files with matching .clip.pt embeddings.")
+                             f"Expected .png files with .clip.pt embeddings or clip_embeddings.pt")
 
     def __len__(self) -> int:
         return len(self.samples)
 
     def __getitem__(self, idx: int) -> dict:
         img_path = self.samples[idx]
-        clip_path = img_path.with_suffix(".clip.pt")
         prev_path = img_path.parent / f"{img_path.stem}.prev.png"
 
         # Load image
         image = load_rgba(img_path, self.image_size)
 
         # Load CLIP embedding
-        text_emb = torch.load(clip_path, map_location="cpu", weights_only=True)
+        if self.clip_embeddings is not None:
+            text_emb = self.clip_embeddings[idx]
+        else:
+            clip_path = img_path.with_suffix(".clip.pt")
+            text_emb = torch.load(clip_path, map_location="cpu", weights_only=True)
 
         # Load reference (previous frame) if available
         has_ref = prev_path.exists()
@@ -92,13 +117,11 @@ class SpriteDataset(Dataset):
 
         # Augmentation
         if self.augment:
-            # Horizontal flip (apply same flip to both image and ref)
             if random.random() < 0.5:
                 image = image.flip(-1)
                 if has_ref:
                     ref = ref.flip(-1)
 
-            # Palette swap
             if random.random() < self.palette_swap_prob:
                 image = palette_swap(image)
                 if has_ref:
